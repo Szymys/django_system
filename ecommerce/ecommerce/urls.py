@@ -19,6 +19,12 @@ urlpatterns = [
 
 
     path('', include('store.urls')),
+
+
+    
+    # cart app
+
+    path('cart/', include('cart.urls')),
 ]
 
 
