@@ -39,8 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # MOJE
-    'store',
-    'cart',
+    'store',   #"podstawa"
+
+    'cart',   #karta
+
+    'mathfilters', #BIBLIOTEKA DO PYTHONA DODAJACA OPERACJE MATEMATYCZNE
 ]
 
 MIDDLEWARE = [
@@ -67,7 +70,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 
                 # MOJE
-                'store.views.categories',
+                'store.views.categories',    #dodanie views z folderu store
+                'cart.context_processors.cart',  #context_processors bo tak sie powyzej nazywaja
             ],
         },
     },

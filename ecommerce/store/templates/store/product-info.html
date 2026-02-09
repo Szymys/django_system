@@ -4,6 +4,8 @@
 
 {% block content %}
 
+
+
 <div class="container">
 
     <main class="pt-5">
@@ -79,9 +81,43 @@
 
     </main>
 
+    <br>
 
+    {% comment %} MIEJSCE NA KOMUNIKAT PO DODANIU {% endcomment %}
+    <div id="message" class="text-center mt-3"></div>
 
 </div>
+
+
+
+
+{% comment %} AJAX - NA ŻYWO ODSWIEŻA MI KOSZYK - DODAWANIE DO KOSZYKA PRZYCISK {% endcomment %}
+<script>
+    $(document).on('click', '#add-button', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart-add" %}',
+            data: {
+                product_id: $('#add-button').val(),
+                product_quantity: $('#select option:selected').text(),
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                action: 'post'
+            },
+            success: function (json) {
+                // AKTUALIZUJE LICZBĘ PRODUKTÓW W KOSZYKU
+                document.getElementById("cart-qty").textContent = json.qty;
+
+                // KOMUNIKAT PO DODANIU
+                $('#message').html('<div class="alert alert-success">✅ Product added to cart!</div>');
+            },
+            error: function (xhr, errmsg, err) {
+                $('#message').html('<div class="alert alert-danger">❌ Something went wrong. Try again.</div>');
+            }
+        });
+    });
+</script>
 
 
 
