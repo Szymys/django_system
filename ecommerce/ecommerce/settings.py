@@ -43,8 +43,18 @@ INSTALLED_APPS = [
 
     'cart',   #karta
 
+    'account',   #konta
+
+    'crispy_forms',  #biblioteka do formularzy
+    "crispy_bootstrap4",
+
     'mathfilters', #BIBLIOTEKA DO PYTHONA DODAJACA OPERACJE MATEMATYCZNE
 ]
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'  #zestaw szablonow do renderowania formularzy
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
