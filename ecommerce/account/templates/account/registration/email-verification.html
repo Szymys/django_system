@@ -1,0 +1,16 @@
+{% autoescape off %}
+
+Hi {{ user.username }},
+
+Thank you for registering on our website! 👋
+
+Please verify your email address by clicking the link below:
+
+👉 http://{{ domain }}{% url 'email-verification' uidb64=uid token=token %}
+
+If you didn’t create an account, you can safely ignore this email.
+
+Best regards,  
+The MyShop Team 🛒
+
+{% endautoescape %}
