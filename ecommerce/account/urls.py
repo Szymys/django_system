@@ -26,4 +26,50 @@ urlpatterns = [
 
     path('email-verification-failed', views.email_verification_failed, name='email-verification-failed'),
 
+
+
+    # LOGOWANIE 
+
+    path('my-login', views.my_login, name='my-login'),
+
+
+    # PANEL
+    path('dashboard', views.dashboard, name='dashboard'),
+
+
+    # WYLOGOWANIE
+
+    path('user-logout', views.user_logout, name='user-logout'),
+
+
+
+    # ZMIANA HASLA:
+
+# 1 mail
+    path('reset_password', auth_views.PasswordResetView.as_view(template_name="account/password/password-reset.html"), name='reset_password'),
+
+# 2 wyslanie
+    path('reset_password_sent', auth_views.PasswordResetDoneView.as_view(template_name="account/password/password-reset-sent.html"), name='password_reset_done'),
+
+# 3 link
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="account/password/password-reset-form.html"), name='password_reset_confirm'),
+
+# 4 sukces
+    path('reset_password_complete', auth_views.PasswordResetCompleteView.as_view(template_name="account/password/password-reset-complete.html"), name='password_reset_complete'),
+
+
+# ZARZADZANIE KONTEM
+    path('profile-management', views.profile_management, name='profile-management'),
+
+
+# USUWANIE KONTA
+    path('delete-account', views.delete_account, name='delete-account'),
+
+# SLEDZENIE ZAMOWIEN
+    path('track-orders', views.track_orders, name='track-orders'),
+
+    
+# KUPOWANIE
+    path('manage-shipping', views.manage_shipping, name='manage-shipping'),
+
 ]
