@@ -45,6 +45,8 @@ INSTALLED_APPS = [
 
     'account',   #konta
 
+    'payment',   #platnosc
+
     'crispy_forms',  #biblioteka do formularzy
     "crispy_bootstrap4",
 
