@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect
 
-from .forms import CreateUserForm, LoginForm, UpdateUserForm
 from django.contrib.auth.models import User
-
-
+from .forms import CreateUserForm, LoginForm, UpdateUserForm
 
 # DO LOGOWANIA
 from django.contrib.auth.models import User, auth
 from django.contrib.auth import authenticate, login, logout
+
 from django.contrib.auth.decorators import login_required
+
+# KUPOWANIE
+from payment.forms import ShippingForm
+from payment.models import ShippingAddress
 
 # WERYFIKACJA MAILA
 from django.contrib.sites.shortcuts import get_current_site
@@ -20,6 +23,11 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 # WIADOMOSCI DJANGO
 from django.contrib import messages
+
+# ZAMOWIENIA DO TRACK_ORDERS
+from payment.models import Order, OrderItem
+
+
 # ********************************************************************************************
 
 
@@ -108,11 +116,6 @@ def email_verification_failed(request):
 
 
 
-
-
-
-
-
 # LOGOWANIE
 def my_login(request):
       
@@ -143,15 +146,6 @@ def my_login(request):
 
 
 
-
-# PANEL
-@login_required(login_url='my-login')
-def dashboard(request):
-       
-       return render(request, 'account/dashboard.html')
-
-
-
 # WYLOGOWANIE
 def user_logout(request):
 
@@ -163,23 +157,11 @@ def user_logout(request):
 
 
 
-# USUWANIE KONTA
+# PANEL
 @login_required(login_url='my-login')
-def delete_account(request):
-
-
-        user = User.objects.get(id=request.user.id)
-
-        if request.method == 'POST':
-               
-               user.delete()
-
-               messages.error(request, 'Account deleted successfully!')
-
-               return redirect('store')
-
-
-        return render(request, 'account/delete-account.html')
+def dashboard(request):
+       
+       return render(request, 'account/dashboard.html')
 
 
 
@@ -209,14 +191,83 @@ def profile_management(request):
 
 
 
+# USUWANIE KONTA
+@login_required(login_url='my-login')
+def delete_account(request):
 
-# SLEDZENIE ZAMOWIEN
-@login_required(login_url='my-login')       # user jest zalogowany na track orders
-def track_orders(request):
-        pass
+
+        user = User.objects.get(id=request.user.id)
+
+        if request.method == 'POST':
+               
+               user.delete()
+
+               messages.error(request, 'Account deleted successfully!')
+
+               return redirect('store')
+
+
+        return render(request, 'account/delete-account.html')
 
 
 # kupowanie widok
 @login_required(login_url='my-login')
 def manage_shipping(request):
-        pass
+       
+        try:
+              
+                shipping = ShippingAddress.objects.get(user=request.user.id)
+
+
+        except ShippingAddress.DoesNotExist:
+              
+                shipping = None
+
+        form = ShippingForm(instance=shipping)
+       
+
+        if request.method == 'POST':
+              
+                form = ShippingForm(request.POST, instance=shipping)
+
+                if form.is_valid():
+                     
+                        shipping_user = form.save(commit=False)
+
+                        shipping_user.user = request.user
+
+                        shipping_user.save()
+
+                        return redirect('dashboard')
+                        
+        context = {'form':form}
+
+        return render(request, 'account/manage-shipping.html', context=context)
+
+
+
+
+# SLEDZENIE ZAMOWIEN
+@login_required(login_url='my-login')       # user jest zalogowany na track orders
+def track_orders(request):
+
+        try:
+                orders = OrderItem.objects.filter(user=request.user)
+
+                context = {'orders': orders}
+
+                return render(request, 'account/track-orders.html', context=context)
+
+        except:
+
+                return render(request, 'account/track-orders.html')
+
+
+
+
+
+
+
+
+
+
