@@ -1,0 +1,27 @@
+{% extends "store/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+    <br>
+
+    <div class="container bg-gray-800 shadow-md p-5 form layout text-center">
+
+        <i class="text-success fa fa-credit-card-alt fa-3x" aria-hidden="true"></i>
+
+        <br><br>
+
+        <h5><strong> Payment successful! </strong></h5>
+
+        <hr>
+
+        <p>Your order was processed successfully.</p>
+
+        <br>
+
+        <a href="{% url 'store' %}" class="btn btn-outline-light">Continue shopping</a>
+
+    </div>
+
+{% endblock %}
