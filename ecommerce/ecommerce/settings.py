@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     "crispy_bootstrap4",
 
     'mathfilters', #BIBLIOTEKA DO PYTHONA DODAJACA OPERACJE MATEMATYCZNE
+
+    'core', #do zmien sklepu jako admin
 ]
 
 
@@ -82,6 +84,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 
                 # MOJE
+                'core.context_processors.store_settings', #zwraca słownik danych dodawanych do kontekstu szablonów
                 'store.views.categories',    #dodanie views z folderu store
                 'cart.context_processors.cart',  #context_processors bo tak sie powyzej nazywaja
             ],
