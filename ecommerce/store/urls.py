@@ -13,6 +13,10 @@ urlpatterns = [
     # KATEGORIA
     path('search/<slug:category_slug>/', views.list_category, name='list-category'),
 
+    # KALKULATORY
+    path("calculators/bmi/", views.bmi_calculator, name="bmi_calculator"),
+    path("calculators/calories/", views.calorie_calculator, name="calorie_calculator"),
+
 ]
 
 
