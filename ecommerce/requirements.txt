@@ -8,3 +8,4 @@ sqlparse==0.5.0
 tzdata==2024.1
 psycopg2-binary>=2.9.9
 crispy-bootstrap5>=2025.4
+crispy-bootstrap4
